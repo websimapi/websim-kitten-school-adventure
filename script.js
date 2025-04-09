@@ -162,12 +162,15 @@ function adoptKitten() {
     
     // Run confetti to celebrate the adoption!
     try {
-        confetti({
-            particleCount: 200,
-            spread: 100,
-            origin: { y: 0.6 },
-            colors: [[255, 107, 136], [107, 136, 255], [141, 202, 100]]
-        });
+        // Use the globally available confetti function
+        if (typeof confetti === 'function') {
+            confetti({
+                particleCount: 200,
+                spread: 100,
+                origin: { y: 0.6 },
+                colors: [[255, 107, 136], [107, 136, 255], [141, 202, 100]]
+            });
+        }
     } catch (error) {
         console.error('Confetti error:', error);
     }

@@ -1,0 +1,363 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+body {
+    background-color: #f8f6ff;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game-container {
+    width: 100%;
+    max-width: 800px;
+    height: 100vh;
+    max-height: 600px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+.game-screen {
+    display: none;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.active {
+    display: flex;
+}
+
+h1 {
+    color: #ff6b88;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #6b88ff;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.primary-button {
+    background-color: #ff6b88;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.primary-button:hover {
+    background-color: #ff4d72;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.primary-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.action-button {
+    background-color: #6b88ff;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #4d72ff;
+    transform: scale(1.05);
+}
+
+.school-button {
+    background-color: #8dca64;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.school-button:hover {
+    background-color: #76b348;
+    transform: scale(1.05);
+}
+
+/* Adoption Screen */
+#kittens-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.kitten-option {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.3s ease;
+    object-fit: contain;
+}
+
+.kitten-option:hover {
+    transform: scale(1.1);
+}
+
+.selected {
+    border-color: #ff6b88;
+    box-shadow: 0 0 10px rgba(255, 107, 136, 0.5);
+}
+
+#kitten-details {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+#selected-kitten {
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+    border: 3px solid #ff6b88;
+    overflow: hidden;
+}
+
+#selected-kitten img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+#kitten-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+#kitten-name {
+    padding: 10px 15px;
+    border-radius: 50px;
+    border: 2px solid #6b88ff;
+    font-size: 1rem;
+    width: 200px;
+}
+
+.personality-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#kitten-personality {
+    padding: 8px 15px;
+    border-radius: 50px;
+    border: 2px solid #6b88ff;
+    font-size: 1rem;
+}
+
+/* Home Screen */
+#home-kitten-container, #school-kitten-container {
+    width: 250px;
+    height: 250px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+#home-kitten-container img, #school-kitten-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+#activities {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.status span {
+    width: 100px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.bar-container {
+    width: 200px;
+    height: 15px;
+    background-color: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.status-bar {
+    height: 100%;
+    width: 50%;
+    border-radius: 10px;
+    transition: width 0.5s ease-in-out;
+}
+
+#happiness-bar {
+    background-color: #ff6b88;
+}
+
+#energy-bar {
+    background-color: #6b88ff;
+}
+
+#knowledge-bar {
+    background-color: #8dca64;
+}
+
+/* School Screen */
+#classroom {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#lesson-container {
+    background-color: #f0f8ff;
+    border-radius: 15px;
+    padding: 15px;
+    width: 90%;
+    margin-bottom: 20px;
+}
+
+#teacher-message {
+    font-style: italic;
+    margin-bottom: 15px;
+    min-height: 50px;
+}
+
+#school-activities {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Message Box */
+#message-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 400px;
+    z-index: 100;
+    text-align: center;
+}
+
+#message-box p {
+    margin-bottom: 15px;
+}
+
+.small-button {
+    background-color: #6b88ff;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    padding: 8px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.small-button:hover {
+    background-color: #4d72ff;
+}
+
+.hidden {
+    display: none;
+}
+
+#loading-kittens {
+    font-size: 1.2rem;
+    color: #6b88ff;
+    margin: 20px 0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    #game-container {
+        height: 100vh;
+        max-height: none;
+        border-radius: 0;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .kitten-option {
+        width: 100px;
+        height: 100px;
+    }
+    
+    #kitten-details {
+        flex-direction: column;
+    }
+    
+    .bar-container {
+        width: 150px;
+    }
+}
+

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitten School Adventure</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="importmap">
+    {
+      "imports": {
+        "confetti-js": "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
+      }
+    }
+    </script>
+</head>
+<body>
+    <div id="game-container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="game-screen active">
+            <h1>Kitten School Adventure</h1>
+            <p>Adopt a kitten and help them learn and play at school!</p>
+            <button id="start-button" class="primary-button">Start Game</button>
+        </div>
+
+        <!-- Adoption Screen -->
+        <div id="adoption-screen" class="game-screen">
+            <h2>Choose Your Kitten</h2>
+            <div id="loading-kittens">Generating adorable kittens...</div>
+            <div id="kittens-container"></div>
+            <div id="kitten-details">
+                <div id="selected-kitten"></div>
+                <div id="kitten-info">
+                    <input type="text" id="kitten-name" placeholder="Name your kitten">
+                    <div class="personality-selector">
+                        <p>Personality:</p>
+                        <select id="kitten-personality">
+                            <option value="playful">Playful</option>
+                            <option value="shy">Shy</option>
+                            <option value="curious">Curious</option>
+                            <option value="mischievous">Mischievous</option>
+                            <option value="sleepy">Sleepy</option>
+                        </select>
+                    </div>
+                    <button id="adopt-button" class="primary-button" disabled>Adopt This Kitten</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Home Screen -->
+        <div id="home-screen" class="game-screen">
+            <div id="home-kitten-container"></div>
+            <div id="interactions">
+                <h2>Play With <span id="kitten-name-display"></span></h2>
+                <div id="activities">
+                    <button id="feed-button" class="action-button">Feed</button>
+                    <button id="play-button" class="action-button">Play</button>
+                    <button id="pet-button" class="action-button">Pet</button>
+                    <button id="school-button" class="action-button">Go to School</button>
+                </div>
+                <div id="status-bars">
+                    <div class="status">
+                        <span>Happiness:</span>
+                        <div class="bar-container">
+                            <div id="happiness-bar" class="status-bar"></div>
+                        </div>
+                    </div>
+                    <div class="status">
+                        <span>Energy:</span>
+                        <div class="bar-container">
+                            <div id="energy-bar" class="status-bar"></div>
+                        </div>
+                    </div>
+                    <div class="status">
+                        <span>Knowledge:</span>
+                        <div class="bar-container">
+                            <div id="knowledge-bar" class="status-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- School Screen -->
+        <div id="school-screen" class="game-screen">
+            <div id="classroom">
+                <h2>Classroom</h2>
+                <div id="school-kitten-container"></div>
+                <div id="lesson-container">
+                    <div id="teacher-message"></div>
+                    <div id="school-activities">
+                        <button id="math-button" class="school-button">Math</button>
+                        <button id="reading-button" class="school-button">Reading</button>
+                        <button id="art-button" class="school-button">Art</button>
+                        <button id="recess-button" class="school-button">Recess</button>
+                    </div>
+                </div>
+                <button id="go-home-button" class="action-button">Go Home</button>
+            </div>
+        </div>
+
+        <!-- Chat/Message Box -->
+        <div id="message-box" class="hidden">
+            <p id="message-text"></p>
+            <button id="message-close" class="small-button">OK</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+

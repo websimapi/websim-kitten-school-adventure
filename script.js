@@ -20,6 +20,7 @@ let gameState = {
 };
 
 import { setupInteractables } from './interactions.js';
+import { setupKittenMovement } from './kitten-animations.js';
 
 // Make interaction functions available globally for the interactions module
 window.interactWithKitten = interactWithKitten;
@@ -225,6 +226,7 @@ function updateHomeScreen() {
     img.src = gameState.kitten.image;
     img.alt = gameState.kitten.name;
     kittenContainer.appendChild(img);
+    setupKittenMovement(kittenContainer);
     kittenContainer.style.left = `${gameState.kittenPosition.x}%`;
     kittenContainer.style.top = `${gameState.kittenPosition.y}%`;
 }
@@ -237,6 +239,7 @@ function updateSchoolScreen() {
     img.src = gameState.kitten.image;
     img.alt = gameState.kitten.name;
     kittenContainer.appendChild(img);
+    setupKittenMovement(kittenContainer);
     
     document.getElementById('teacher-message').textContent = `What would ${gameState.kitten.name} like to learn today?`;
 }
@@ -497,36 +500,4 @@ function initializeScenes() {
 
     // Add click handlers for interactables
     setupInteractables();
-}
-
-// Start dragging
-function startDragging(e) {
-    e.preventDefault();
-    const container = e.currentTarget;
-    const scene = container.parentElement;
-    
-    const moveKitten = (moveEvent) => {
-        const bounds = scene.getBoundingClientRect();
-        const x = (moveEvent.clientX || moveEvent.touches[0].clientX) - bounds.left;
-        const y = (moveEvent.clientY || moveEvent.touches[0].clientY) - bounds.top;
-        
-        // Keep kitten within bounds
-        const kittenWidth = container.offsetWidth;
-        const kittenHeight = container.offsetHeight;
-        
-        container.style.left = `${Math.max(0, Math.min(x - kittenWidth/2, bounds.width - kittenWidth))}px`;
-        container.style.top = `${Math.max(0, Math.min(y - kittenHeight/2, bounds.height - kittenHeight))}px`;
-    };
-    
-    const stopDragging = () => {
-        document.removeEventListener('mousemove', moveKitten);
-        document.removeEventListener('mouseup', stopDragging);
-        document.removeEventListener('touchmove', moveKitten);
-        document.removeEventListener('touchend', stopDragging);
-    };
-    
-    document.addEventListener('mousemove', moveKitten);
-    document.addEventListener('mouseup', stopDragging);
-    document.addEventListener('touchmove', moveKitten);
-    document.addEventListener('touchend', stopDragging);
 }

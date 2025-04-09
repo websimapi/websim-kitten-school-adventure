@@ -388,15 +388,25 @@ p {
 }
 
 .kitten-container img {
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
+    transform-origin: center;
+}
+
+@keyframes walk {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.walking {
+    animation: walk 0.4s infinite;
 }
 
 .interactable {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     transition: transform 0.3s ease;
     background-size: contain;
@@ -447,12 +457,12 @@ p {
     }
 
     .kitten-container img {
-        width: 60px;
-        height: 60px;
+        width: 30px;
+        height: 30px;
     }
 
     .interactable {
-        width: 50px;
-        height: 50px;
+        width: 30px;
+        height: 30px;
     }
 }

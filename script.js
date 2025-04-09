@@ -1,5 +1,5 @@
 // Import confetti for celebrations
-import confetti from 'confetti-js';
+import * as confettiModule from 'confetti-js';
 
 // Game state
 let gameState = {
@@ -161,6 +161,7 @@ function adoptKitten() {
     };
     
     // Run confetti to celebrate the adoption!
+    const confetti = confettiModule.default || confettiModule;
     confetti({
         particleCount: 200,
         spread: 100,

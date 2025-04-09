@@ -10,7 +10,13 @@ let gameState = {
         knowledge: 20
     },
     generatedKittens: [],
-    selectedKittenIndex: -1
+    selectedKittenIndex: -1,
+    kittenPosition: { x: 50, y: 50 },
+    sceneAssets: {
+        home: null,
+        school: null,
+        interactables: {}
+    }
 };
 
 // DOM Elements
@@ -23,6 +29,8 @@ const screens = {
 
 // Initialize the game
 document.addEventListener('DOMContentLoaded', function() {
+    generateSceneAssets();
+    
     // Button event listeners
     document.getElementById('start-button').addEventListener('click', startGame);
     document.getElementById('adopt-button').addEventListener('click', adoptKitten);
@@ -201,13 +209,18 @@ function updateHomeScreen() {
     document.getElementById('energy-bar').style.width = `${gameState.kitten.energy}%`;
     document.getElementById('knowledge-bar').style.width = `${gameState.kitten.knowledge}%`;
     
-    // Display kitten image
+    if (!gameState.sceneAssets.home) {
+        generateSceneAssets();
+    }
+    
     const kittenContainer = document.getElementById('home-kitten-container');
     kittenContainer.innerHTML = '';
     const img = document.createElement('img');
     img.src = gameState.kitten.image;
     img.alt = gameState.kitten.name;
     kittenContainer.appendChild(img);
+    kittenContainer.style.left = `${gameState.kittenPosition.x}%`;
+    kittenContainer.style.top = `${gameState.kittenPosition.y}%`;
 }
 
 // Update the school screen
@@ -265,6 +278,11 @@ async function interactWithKitten(action) {
         case 'pet':
             gameState.kitten.happiness = Math.min(100, gameState.kitten.happiness + 15);
             message = `You petted ${gameState.kitten.name}. They're purring!`;
+            break;
+        case 'rest':
+            gameState.kitten.energy = Math.min(100, gameState.kitten.energy + 10);
+            gameState.kitten.happiness = Math.min(100, gameState.kitten.happiness + 5);
+            message = `You gave ${gameState.kitten.name} a rest. Energy increased!`;
             break;
     }
     
@@ -412,4 +430,111 @@ async function removeBackground(imageUrl) {
         
         img.src = imageUrl;
     });
+}
+
+// Generate scene assets
+async function generateSceneAssets() {
+    try {
+        // Generate home background
+        const homeResult = await websim.imageGen({
+            prompt: "A cozy cartoon living room with pastel colors, cat furniture, and large windows, simple style, white walls",
+            aspect_ratio: "16:9"
+        });
+        gameState.sceneAssets.home = homeResult.url;
+
+        // Generate school background
+        const schoolResult = await websim.imageGen({
+            prompt: "A cute cartoon classroom with colorful decorations, chalkboard, and small desks, simple style",
+            aspect_ratio: "16:9"
+        });
+        gameState.sceneAssets.school = schoolResult.url;
+
+        // Generate interactable items
+        const interactables = {
+            'food-bowl': "A colorful cat food bowl with cute paw prints, simple cartoon style, white background",
+            'toy-ball': "A bright yarn ball toy for cats, simple cartoon style, white background",
+            'cat-bed': "A cozy round cat bed with soft cushion, simple cartoon style, white background",
+            'desk': "A small student desk with books, simple cartoon style, white background",
+            'blackboard': "A green chalkboard with cute doodles, simple cartoon style, white background",
+            'playground': "A small cat playground with scratching post, simple cartoon style, white background"
+        };
+
+        for (const [key, prompt] of Object.entries(interactables)) {
+            const result = await websim.imageGen({
+                prompt: prompt,
+                aspect_ratio: "1:1"
+            });
+            const transparentUrl = await removeBackground(result.url);
+            gameState.sceneAssets.interactables[key] = transparentUrl;
+        }
+
+        initializeScenes();
+    } catch (error) {
+        console.error('Error generating scene assets:', error);
+        showMessage('Had trouble creating the environment. Please refresh the page.');
+    }
+}
+
+// Initialize scenes
+function initializeScenes() {
+    // Set backgrounds
+    document.getElementById('home-scene').style.backgroundImage = `url(${gameState.sceneAssets.home})`;
+    document.getElementById('school-scene').style.backgroundImage = `url(${gameState.sceneAssets.school})`;
+
+    // Set interactable images
+    for (const [key, url] of Object.entries(gameState.sceneAssets.interactables)) {
+        const element = document.getElementById(key);
+        if (element) {
+            element.style.backgroundImage = `url(${url})`;
+        }
+    }
+
+    // Add click handlers for interactables
+    setupInteractables();
+}
+
+// Setup interactables
+function setupInteractables() {
+    document.getElementById('food-bowl').addEventListener('click', () => interactWithKitten('feed'));
+    document.getElementById('toy-ball').addEventListener('click', () => interactWithKitten('play'));
+    document.getElementById('cat-bed').addEventListener('click', () => interactWithKitten('rest'));
+    
+    // Make kitten draggable in scenes
+    const kittenContainers = document.querySelectorAll('.kitten-container');
+    kittenContainers.forEach(container => {
+        container.addEventListener('mousedown', startDragging);
+        container.addEventListener('touchstart', startDragging, { passive: false });
+    });
+}
+
+// Start dragging
+function startDragging(e) {
+    e.preventDefault();
+    const container = e.currentTarget;
+    const scene = container.parentElement;
+    
+    const moveKitten = (moveEvent) => {
+        const bounds = scene.getBoundingClientRect();
+        const x = (moveEvent.clientX || moveEvent.touches[0].clientX) - bounds.left;
+        const y = (moveEvent.clientY || moveEvent.touches[0].clientY) - bounds.top;
+        
+        // Keep kitten within bounds
+        const kittenWidth = container.offsetWidth;
+        const kittenHeight = container.offsetHeight;
+        
+        container.style.left = `${Math.max(0, Math.min(x - kittenWidth/2, bounds.width - kittenWidth))}px`;
+        container.style.top = `${Math.max(0, Math.min(y - kittenHeight/2, bounds.height - kittenHeight))}px`;
+    };
+    
+    const stopDragging = () => {
+        document.removeEventListener('mousemove', moveKitten);
+        document.removeEventListener('mouseup', stopDragging);
+        document.removeEventListener('touchmove', moveKitten);
+        document.removeEventListener('touchend', stopDragging);
+    };
+    
+    document.addEventListener('mousemove', moveKitten);
+    document.addEventListener('mouseup', stopDragging);
+    document.addEventListener('touchmove', moveKitten);
+    document.addEventListener('touchend', stopDragging);
 }

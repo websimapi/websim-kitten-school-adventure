@@ -43,7 +43,15 @@
 
         <!-- Home Screen -->
         <div id="home-screen" class="game-screen">
-            <div id="home-kitten-container"></div>
+            <div id="home-scene">
+                <div id="home-background"></div>
+                <div id="home-kitten-container" class="kitten-container"></div>
+                <div id="home-interactables">
+                    <div id="food-bowl" class="interactable"></div>
+                    <div id="toy-ball" class="interactable"></div>
+                    <div id="cat-bed" class="interactable"></div>
+                </div>
+            </div>
             <div id="interactions">
                 <h2>Play With <span id="kitten-name-display"></span></h2>
                 <div id="activities">
@@ -77,9 +85,17 @@
 
         <!-- School Screen -->
         <div id="school-screen" class="game-screen">
+            <div id="school-scene">
+                <div id="school-background"></div>
+                <div id="school-kitten-container" class="kitten-container"></div>
+                <div id="school-interactables">
+                    <div id="desk" class="interactable"></div>
+                    <div id="blackboard" class="interactable"></div>
+                    <div id="playground" class="interactable"></div>
+                </div>
+            </div>
             <div id="classroom">
                 <h2>Classroom</h2>
-                <div id="school-kitten-container"></div>
                 <div id="lesson-container">
                     <div id="teacher-message"></div>
                     <div id="school-activities">

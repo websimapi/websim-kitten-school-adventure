@@ -161,16 +161,18 @@ function adoptKitten() {
     };
     
     // Run confetti to celebrate the adoption!
-    const confettiSettings = { target: 'game-container', max: 200, size: 1.5, animate: true, props: ['circle', 'square', 'triangle', 'line'], colors: [[255, 107, 136], [107, 136, 255], [141, 202, 100]], clock: 25 };
-    const confettiCanvas = new ConfettiGenerator(confettiSettings);
-    confettiCanvas.render();
+    confetti({
+        particleCount: 200,
+        spread: 100,
+        origin: { y: 0.6 },
+        colors: [[255, 107, 136], [107, 136, 255], [141, 202, 100]]
+    });
     
     // Show celebration message
     showMessage(`Congratulations! You've adopted ${name}! Take good care of your new friend.`);
     
     // Clean up confetti after message is closed
     document.getElementById('message-close').addEventListener('click', () => {
-        confettiCanvas.clear();
         goHome();
     }, { once: true });
 }
@@ -414,4 +416,3 @@ async function removeBackground(imageUrl) {
         img.src = imageUrl;
     });
 }
-

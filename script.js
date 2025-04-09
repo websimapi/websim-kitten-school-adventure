@@ -19,6 +19,12 @@ let gameState = {
     }
 };
 
+import { setupInteractables } from './interactions.js';
+
+// Make interaction functions available globally for the interactions module
+window.interactWithKitten = interactWithKitten;
+window.doSchoolActivity = doSchoolActivity;
+
 // DOM Elements
 const screens = {
     welcome: document.getElementById('welcome-screen'),
@@ -491,20 +497,6 @@ function initializeScenes() {
 
     // Add click handlers for interactables
     setupInteractables();
-}
-
-// Setup interactables
-function setupInteractables() {
-    document.getElementById('food-bowl').addEventListener('click', () => interactWithKitten('feed'));
-    document.getElementById('toy-ball').addEventListener('click', () => interactWithKitten('play'));
-    document.getElementById('cat-bed').addEventListener('click', () => interactWithKitten('rest'));
-    
-    // Make kitten draggable in scenes
-    const kittenContainers = document.querySelectorAll('.kitten-container');
-    kittenContainers.forEach(container => {
-        container.addEventListener('mousedown', startDragging);
-        container.addEventListener('touchstart', startDragging, { passive: false });
-    });
 }
 
 // Start dragging

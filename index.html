@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="styles.css">
     <!-- Load canvas-confetti directly -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Add import map for module support -->
+    <script type="importmap">
+    {
+        "imports": {
+            "./interactions.js": "./interactions.js"
+        }
+    }
+    </script>
 </head>
 <body>
     <div id="game-container">

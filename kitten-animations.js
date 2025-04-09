@@ -2,30 +2,29 @@
 export function setupKittenMovement(container) {
     const scene = container.parentElement;
     
-    // Add click listener to scene for kitten movement
     scene.addEventListener('click', (e) => {
-        // Don't trigger movement if clicking an interactable
         if (e.target.classList.contains('interactable')) return;
         
         const bounds = scene.getBoundingClientRect();
-        const x = e.clientX - bounds.left;
-        const y = e.clientY - bounds.top;
+        const xPercent = ((e.clientX - bounds.left) / bounds.width) * 100;
+        const yPercent = ((e.clientY - bounds.top) / bounds.height) * 100;
         
-        moveKittenTo(container, x, y);
+        // Constrain movement within scene bounds
+        const constrainedX = Math.min(Math.max(xPercent, 5), 95);
+        const constrainedY = Math.min(Math.max(yPercent, 5), 95);
+        
+        moveKittenTo(container, constrainedX, constrainedY);
     });
 }
 
-function moveKittenTo(kittenContainer, targetX, targetY) {
-    // Get current position
-    const currentX = parseFloat(kittenContainer.style.left) || 0;
-    const currentY = parseFloat(kittenContainer.style.top) || 0;
+function moveKittenTo(kittenContainer, targetXPercent, targetYPercent) {
+    const currentXPercent = parseFloat(kittenContainer.style.left) || 50;
+    const currentYPercent = parseFloat(kittenContainer.style.top) || 50;
     
-    // Calculate distance and direction
-    const dx = targetX - currentX;
-    const dy = targetY - currentY;
+    const dx = targetXPercent - currentXPercent;
+    const dy = targetYPercent - currentYPercent;
     const distance = Math.sqrt(dx * dx + dy * dy);
     
-    // Flip kitten image based on movement direction
     const kittenImg = kittenContainer.querySelector('img');
     if (dx < 0) {
         kittenImg.style.transform = 'scaleX(-1)';
@@ -33,16 +32,14 @@ function moveKittenTo(kittenContainer, targetX, targetY) {
         kittenImg.style.transform = 'scaleX(1)';
     }
     
-    // Add walking animation class
     kittenImg.classList.add('walking');
     
-    // Animate movement
-    const duration = distance * 5; // 5ms per pixel
+    // Adjust speed based on percentage distance
+    const duration = distance * 50; // Adjust timing for percentage-based movement
     kittenContainer.style.transition = `left ${duration}ms linear, top ${duration}ms linear`;
-    kittenContainer.style.left = `${targetX}px`;
-    kittenContainer.style.top = `${targetY}px`;
+    kittenContainer.style.left = `${targetXPercent}%`;
+    kittenContainer.style.top = `${targetYPercent}%`;
     
-    // Remove walking animation after movement completes
     setTimeout(() => {
         kittenImg.classList.remove('walking');
         kittenContainer.style.transition = '';
